@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default function SignupFormDemo() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const params = {
+    const params: Record<string, any> = {
       amount: 0,
       idType: 0,
       name: "",
@@ -16,82 +16,98 @@ export default function SignupFormDemo() {
       lastName: "",
       tel: "",
     };
-    Object.keys((i: string) => {
-      params[i] = formData.get(i);
+    Object.keys(params).forEach((k) => {
+      params[k] = formData.get(k);
     });
-    console.log(params);
+    const hasEmptyValue = Object.values(params).some((v) => !v);
+    if (hasEmptyValue) {
+      return alert("Check required fields!");
+    }
+
+    if (!/^\d{8}$/.test(String(params.idType))) {
+      return alert("ID number must be 8 digits");
+    }
+    if (window.confirm("Please confirm?")) {
+      const response = await fetch("/api/sendMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: params }),
+      });
+    }
   };
   return (
-    <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
-      <form className="my-8" onSubmit={handleSubmit}>
-        <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+    <div className="w-full p-4   z-10">
+      <form onSubmit={handleSubmit}>
+        <div className=" grid md:grid-cols-2 gap-6 bg4  p-5 md:p-10 form-bg relative">
           <LabelInputContainer>
-            <Label htmlFor="amount">申请金额</Label>
             <Input
               id="amount"
-              placeholder="Tyler"
+              placeholder="Monto solicitado"
               type="number"
               name="amount"
               min={0}
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label htmlFor="idType">身份证号</Label>
             <Input
               id="idType"
-              placeholder="Durden"
+              placeholder="Número de identificación"
               type="number"
               name="idType"
             />
           </LabelInputContainer>
+          <LabelInputContainer>
+            <Input id="name" placeholder="Nombre" type="text" name="name" />
+          </LabelInputContainer>
+          <LabelInputContainer>
+            <Input
+              id="email"
+              name="email"
+              placeholder="Correo electrónico"
+              type="email"
+            />
+          </LabelInputContainer>
+          <LabelInputContainer>
+            <Input
+              id="lastName"
+              placeholder="Apellido"
+              type="text"
+              name="lastName"
+            />
+          </LabelInputContainer>
+          <LabelInputContainer>
+            <Input id="tel" placeholder="Teléfono" type="number" name="tel" />
+          </LabelInputContainer>
         </div>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="name">姓名</Label>
-          <Input id="name" placeholder="••••••••" type="text" name="name" />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="email">电子邮箱</Label>
-          <Input
-            id="email"
-            name="email"
-            placeholder="projectmayhem@fc.com"
-            type="email"
+        <div className="z-1 flex items-baseline justify-center text-[16px] leading-6 mt-10 max-w-257.5 mx-auto text-center">
+          <Image
+            src="/img/about-1.png"
+            className="w-4 h-4 mr-1"
+            alt="logo"
+            width={16}
+            height={16}
           />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-8">
-          <Label htmlFor="lastName">姓氏</Label>
-          <Input
-            id="lastName"
-            placeholder="••••••••"
-            type="text"
-            name="lastName"
-          />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-8">
-          <Label htmlFor="tel">电话</Label>
-          <Input id="tel" placeholder="••••••••" type="number" name="tel" />
-        </LabelInputContainer>
+          Al enviar su información, significa que ha leído la Política de
+          Privacidad de TeemoDinero y acepta que TeemoDinero utilice sus datos
+          en todas sus comunicaciones.
+        </div>
 
-        <button
-          className="group/btn relative block h-10 w-full rounded-md bg-linear-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
-          type="submit"
-        >
-          Sign up &rarr;
-          <BottomGradient />
-        </button>
+        <div className="flex items-center justify-center mt-8">
+          <button className="apply-btn" type="submit">
+            <div className="apply-btn-cnt  flex items-center justify-center ">
+              <div className="apply-btn-cnt-center text-[16px] text-[#02081F] font-medium">
+                Enviar
+              </div>
+            </div>
+            <div className="mask"></div>
+          </button>
+        </div>
       </form>
     </div>
   );
 }
-
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
-    </>
-  );
-};
 
 const LabelInputContainer = ({
   children,

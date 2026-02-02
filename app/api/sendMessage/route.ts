@@ -4,6 +4,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { message } = body;
     const mode = process.env.NEXT_PUBLIC_MODE;
+
     const LARK_WEBHOOK_URL =
       mode === "development"
         ? "https://open.larksuite.com/open-apis/bot/v2/hook/20f31138-5cb2-42ef-88c2-3b9d33dd162d"

@@ -1,19 +1,25 @@
 export const websit = [
   {
+    id: 0,
+    name: "Página principal",
+    href: "/",
+    target: "_self",
+  },
+  {
     id: 1,
-    name: "联系我们",
-    href: "",
-    target: "self",
+    name: "Contáctenos",
+    href: "/Concat",
+    target: "_self",
   },
   {
     id: 2,
-    name: "隐私政策",
+    name: "Política de privacid",
     href: "/file/Privacy.pdf",
     target: "_blank",
   },
   {
     id: 3,
-    name: "条件",
+    name: "Términos y Condicion",
     href: "/file/Terms.pdf",
     target: "_blank",
   },
