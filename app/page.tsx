@@ -307,7 +307,7 @@ const FiveCard = () => {
       <Main>
         <FirstTitle
           className="mb-50"
-          title="Ventajas del producto principal"
+          title="¿Por qué elegir TeemoDinero?"
         ></FirstTitle>
         <div className=" relative flex items-center justify-center cursor-pointer group">
           <div className="hidden md:block relative">
