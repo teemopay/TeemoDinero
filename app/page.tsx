@@ -112,7 +112,7 @@ const SecondItem = () => {
     {
       sort: 4,
       id: 6,
-      name: "¡Dinero en tu Cuenta",
+      name: "¡Dinero en tu Cuenta！",
       sub: "Transferimos el monto aprobado directamente a tu CBU o CVU.",
       last: "Acreditación inmediata para usar hoy mismo.",
     },
