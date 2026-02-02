@@ -3,8 +3,10 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function SignupFormDemo() {
+  const [active, setActive] = useState(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -26,6 +28,10 @@ export default function SignupFormDemo() {
 
     if (!/^\d{8}$/.test(String(params.idType))) {
       return alert("ID number must be 8 digits");
+    }
+
+    if (!active) {
+      return alert("Por favor revise el acuerdo.");
     }
     if (window.confirm("Please confirm?")) {
       const response = await fetch("/api/sendMessage", {
@@ -81,14 +87,21 @@ export default function SignupFormDemo() {
             <Input id="tel" placeholder="Teléfono" type="number" name="tel" />
           </LabelInputContainer>
         </div>
-        <div className="z-1 flex items-baseline justify-center text-[16px] leading-6 mt-10 max-w-257.5 mx-auto text-center">
-          <Image
-            src="/img/about-1.png"
-            className="w-4 h-4 mr-1"
-            alt="logo"
-            width={16}
-            height={16}
-          />
+        <div
+          className="z-1 flex items-baseline justify-center text-[16px] leading-6 mt-10 max-w-257.5 mx-auto text-center cursor-pointer"
+          onClick={() => setActive(!active)}
+        >
+          {active ? (
+            <Image
+              src="/img/about-1.png"
+              className="w-4 h-4 mr-1"
+              alt="logo"
+              width={16}
+              height={16}
+            />
+          ) : (
+            <div className="w-4 h-4 min-w-4 min-h-4 border border-white mr-1 rounded-xs"></div>
+          )}
           Al enviar su información, significa que ha leído la Política de
           Privacidad de TeemoDinero y acepta que TeemoDinero utilice sus datos
           en todas sus comunicaciones.
