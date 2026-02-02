@@ -86,6 +86,7 @@ export default function NavBar() {
                       key={i.id}
                       href={i.href}
                       target={i.target}
+                      onClick={() => setActive(!active)}
                     >
                       {i.name}
                     </Link>
