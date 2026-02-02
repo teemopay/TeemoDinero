@@ -69,8 +69,30 @@ export default function NavBar() {
               />
             </svg>
             <div
-              className={`fixed md:hidden right-0 top-0 bg-amber-500 z-[-1] w-[70%] sm:w-[50%] h-100 mobile-clip ${active ? "active" : ""}`}
-            ></div>
+              className={`fixed md:hidden right-0 top-0 bg-[#1EA65D] z-[-1] w-[70%] sm:w-[50%] h-100 mobile-clip ${active ? "active" : ""}`}
+            >
+              <div className="pt-25">
+                {websit.map((i) => {
+                  return (
+                    <Link
+                      className={cn(
+                        "block text-[12px] text-right leading-4  cursor-pointer transition-colors duration-300 mb-4 pr-6",
+                        `${
+                          i.href === pathname
+                            ? "text-[#FFFFFF] font-semibold"
+                            : "text-[#FFFFFF] "
+                        }`,
+                      )}
+                      key={i.id}
+                      href={i.href}
+                      target={i.target}
+                    >
+                      {i.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </Main>
