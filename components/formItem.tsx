@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+const reg =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default function SignupFormDemo() {
   const [active, setActive] = useState(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,9 +31,14 @@ export default function SignupFormDemo() {
       return alert("ID number must be 8 digits");
     }
 
+    if (!reg.test(params.email)) {
+      return alert("Enter the correct email");
+    }
+
     if (!active) {
       return alert("Por favor revise el acuerdo.");
     }
+
     if (window.confirm("Please confirm?")) {
       const response = await fetch("/api/sendMessage", {
         method: "POST",
@@ -72,7 +78,7 @@ export default function SignupFormDemo() {
               id="email"
               name="email"
               placeholder="Correo electrónico"
-              type="email"
+              type="text"
             />
           </LabelInputContainer>
           <LabelInputContainer>
