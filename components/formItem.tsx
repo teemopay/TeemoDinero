@@ -56,7 +56,7 @@ export default function SignupFormDemo() {
           <LabelInputContainer>
             <Input
               id="amount"
-              placeholder="Monto solicitado"
+              placeholder="Monto a solicitar"
               type="number"
               name="amount"
               min={0}

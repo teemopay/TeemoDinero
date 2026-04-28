@@ -4,6 +4,7 @@ import Main from "../components/Main";
 import Button from "../components/Button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 type secondProps = {
   data: {
     id: number;
@@ -24,7 +25,7 @@ export default function Home() {
           width={1920}
           height={960}
         />
-        <div className="md:absolute inset-0 w-full h-full z-10 pt-20 pb-20 md:pt-0 md:pb-0">
+        <div className="md:absolute inset-0 w-full h-full z-10 pt-20 pb-20 md:pt-0 md:pb-0 overflow-x-hidden">
           <Main className="flex  justify-center flex-col">
             <motion.div
               initial={{ opacity: 0, translateY: 40 }}
@@ -42,9 +43,9 @@ export default function Home() {
                 ease: [0.16, 1, 0.3, 1],
                 delay: 0.1,
               }}
-              className="mb-4 xl:mb-6  text-[20px] lg:text-[30px] lg:leading-8.5 lg:max-w-140 xl:text-[40px] xl:leading-12  xl:max-w-171 home-submit xl:tracking-[-1.5]"
+              className="mb-4 xl:mb-6  text-[20px] lg:text-[30px] lg:leading-8.5 lg:max-w-140 xl:text-[40px] xl:leading-12  xl:max-w-150 home-submit xl:tracking-[-1.5]"
             >
-              TeemoDinero: Plataforma de préstamos cumplidora para argentinos
+              Dinero en tu cuenta cuando más lo necesitás
             </motion.div>
             <motion.div
               initial={{ opacity: 0, translateY: 40 }}
@@ -80,6 +81,7 @@ export default function Home() {
       <SecondItem />
       <ThreeCard />
       <FourCard />
+      <SevenCard />
       <FiveCard />
       <SixCard />
     </div>
@@ -106,13 +108,13 @@ const SecondItem = () => {
       sort: 3,
       id: 5,
       name: "Análisis de Perfil",
-      sub: "Evaluamos tus datos para buscar la mejor oferta de crédito disponible.",
-      last: "Propuesta a tu medida y 100%.",
+      sub: "Evaluamos tu perfil para encontrar la mejor oferta disponible",
+      last: "Te presentamos una propuesta a tu medida, sin letra chica.",
     },
     {
       sort: 4,
       id: 6,
-      name: "¡Dinero en tu Cuenta！",
+      name: "¡Dinero en tu Cuenta",
       sub: "Transferimos el monto aprobado directamente a tu CBU o CVU.",
       last: "Acreditación inmediata para usar hoy mismo.",
     },
@@ -155,7 +157,7 @@ const ThreeCard = () => {
     {
       id: 8,
       name: "Mayor de 18 años",
-      sub: "Ser titular de la cuenta.",
+      sub: "Cumplir con la edad legal.",
     },
     {
       id: 9,
@@ -328,7 +330,7 @@ const FiveCard = () => {
             ></FiveItem>
             <FiveItem
               className="absolute top-[35%]  -right-[57%] md:max-w-65  lg:max-w-102.25"
-              title="Servicio humanizado, garantía de derechos"
+              title="Atención personalizada, tus derechos protegidos"
               id={20}
             ></FiveItem>
             <FiveItem
@@ -650,6 +652,232 @@ const SevenItem = ({
       <div className="flex-1 md:text-[14px]  lg:text-[16px] leading-6 pl-2 tracking-[-0.5px]">
         {title}
       </div>
+    </div>
+  );
+};
+
+const SevenCard = () => {
+  return (
+    <div className="w-full">
+      <Main>
+        <FirstTitle
+          className="mb-2"
+          title="Calculo cuánto puedo prestarte"
+        ></FirstTitle>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, translateY: 40 }}
+          whileInView={{ opacity: 1, scale: 1, translateY: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          style={{ transformOrigin: "bottom center" }}
+          className="text-[32px] leading-12 text-center"
+        >
+          Simulá tu préstamo online en el acto
+        </motion.div>
+      </Main>
+      <div className="mt-22 relative w-full">
+        <div className="absolute top-17.5 left-0 w-full h-full bg-[url('/img/home-27.png')] bg-cover bg-center bg-no-repeat"></div>
+        <Main>
+          <div className="relative sevenBg rounded-[24px] py-20 px-4">
+            <div className="text-7 text-center">
+              Ingresá el monto que necesitás
+            </div>
+            <LoanFormInline />
+            <div className="text-4 text-center leading-6 text-[rgba(255,255,255,0.56)] max-w-222.5 mx-auto mt-16">
+              Los TNA, TEA y CFT varían según el perfil crediticio del
+              solicitante, el monto aprobado y el plazo elegido, y están sujetos
+              a modificaciones conforme a las condiciones vigentes al momento
+              del otorgamiento.
+              <br /> TNA de referencia: 99%. TEA de referencia: 158,90%. CFTNA
+              con IVA de referencia: 119,79%. CFTEA con IVA de referencia:
+              213,24%. <br />
+              Las tasas finales aplicables serán informadas al solicitante antes
+              de la aceptación del préstamo y constarán en la solicitud y/o
+              contrato de otorgamiento.
+            </div>
+          </div>
+        </Main>
+      </div>
+    </div>
+  );
+};
+
+const LoanFormInline = () => {
+  const [amount, setAmount] = useState("2.954");
+  const [afterAmount, setAfterAmount] = useState("0");
+  const [isEditor, setIsEditor] = useState(false);
+  const MIN = 1000;
+  const MAX = 2954000;
+  const format = (num: any) => num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const handleChange = (e: any) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, "");
+    if (!value) {
+      setAmount("");
+      return;
+    }
+    setAmount(format(value));
+  };
+  const handleBlur = () => {
+    if (!amount) return;
+    let num = parseInt(amount.replace(/\./g, ""), 10);
+    if (num < MIN) num = MIN;
+    if (num > MAX) num = MAX;
+    setAmount(format(num.toString()));
+  };
+
+  const handleClick = () => {
+    const raw = amount.replace(/\./g, ""); // 去掉千分位
+    const num = Number(raw);
+    const result = num * 1.099825;
+    const formatDecimal = (n: number, decimals = 2) => {
+      const s = n.toFixed(decimals);
+      const parts = s.split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return parts.join(",");
+    };
+    setAfterAmount(formatDecimal(result, 3));
+  };
+
+  const handleEditor = () => {
+    setIsEditor(!isEditor);
+    if (!!isEditor) {
+      setAmount("2.954");
+    } else {
+      handleClick();
+    }
+  };
+
+  return (
+    <div className="flex flex-col justify-center items-center">
+      <div className="h-28.55 text-center mt-16 w-full">
+        <div className="border-b border-white flex items-center justify-center max-w-[70%]   sm:max-w-100 mx-auto">
+          <div className="flex-1">
+            {!isEditor ? (
+              <div className="w-full p-3  text-center text-[72px] font-semibold color-text">
+                ${amount}
+              </div>
+            ) : (
+              <input
+                type="text"
+                value={amount}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputMode="numeric"
+                className="w-full p-3 bg-transparent text-center text-[72px] font-semibold outline-none"
+              />
+            )}
+          </div>
+          <svg
+            onClick={handleEditor}
+            className="min-w-7 min-h-7"
+            width="28px"
+            height="28px"
+            viewBox="0 0 28 28"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          >
+            <title>图形</title>
+            <g
+              id="图形"
+              stroke="none"
+              fill="none"
+              fillRule="evenodd"
+              strokeWidth={1}
+            >
+              <g id="编组">
+                <path
+                  d="M14,0 C6.26818183,0 0,6.26818183 0,14 C0,21.7318182 6.26818183,28 14,28 C21.7318182,28 28,21.7318182 28,14 C28,6.2680135 21.7319865,0 14,0 Z M14,26.7272727 C6.97072729,26.7272727 1.27272729,21.0292727 1.27272729,14 C1.27272729,6.97072729 6.97072729,1.27272729 14,1.27272729 C21.0292727,1.27272729 26.7272727,6.97072729 26.7272727,14 C26.7272727,17.3754826 25.3863675,20.6127142 22.9995408,22.9995408 C20.6127142,25.3863675 17.3754826,26.7272727 14,26.7272727 Z"
+                  id="形状"
+                  fill="#A0FC99"
+                  fillRule="nonzero"
+                />
+                <path
+                  d="M15.9964675,5.12771217 C16.6166086,4.51298483 17.6163264,4.51298483 18.2364675,5.12771217 L20.641922,7.55862125 C20.9349331,7.8500518 21.0996785,8.24626623 21.0996785,8.65953034 C21.0996785,9.07279445 20.9349331,9.46900888 20.641922,9.76043943 L12.521922,17.8804394 C12.4052792,17.9799442 12.2716169,18.0575545 12.1273766,18.1095303 L10.5113333,18.6666667 L20.3636364,18.6666667 C20.7150903,18.6666667 21,18.9515764 21,19.3030303 C21,19.6544842 20.7150903,19.9393939 20.3636364,19.9393939 L6.80070991,19.9391811 C6.75626547,19.9434139 6.71182104,19.940197 6.66737659,19.9295303 L6.72433333,19.9386667 L6.46969696,19.9393939 C6.11824303,19.9393939 5.83333333,19.6544842 5.83333333,19.3030303 C5.83333333,19.2653999 5.83659958,19.2285323 5.84286403,19.1926957 C5.82785701,19.0966789 5.83128416,18.996917 5.85283113,18.8986213 L5.85283113,18.8349849 L7.6346493,13.6422576 C7.66977468,13.4907665 7.74958519,13.3533151 7.86374021,13.2477122 Z M8.42374021,14.3804394 L6.93733333,18.6666667 L7.54633333,18.6666667 L11.3382857,17.3968031 L8.42374021,14.3804394 Z M14.9528311,7.57134854 L8.94555839,13.5786213 L12.1910129,16.8240758 L18.1982857,10.8168031 L14.9528311,7.57134854 Z M17.5237402,5.84043943 C17.2881552,5.61740415 16.9193253,5.61740415 16.6837402,5.84043943 L15.4110129,7.11316671 L18.681922,10.3713485 L19.9546493,9.09862125 C20.0618806,8.98151799 20.1129666,8.82361588 20.0946493,8.66589397 L20.092104,8.57214556 C20.0778358,8.44863913 20.0207625,8.33285651 19.9291948,8.24589397 Z"
+                  id="形状结合"
+                  fill="#9EF997"
+                />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div className="text-5 text-[#A7FCA0] mt-6 text-center">
+        Podès pedirentre{" "}
+        <span className="font-semibold">$1.000y$2.954.000</span>
+      </div>
+      {isEditor && (
+        <>
+          <div className="count-card p-8 w-[80%] sm:w-108 rounded-[24px] flex flex-col items-center mt-16">
+            <svg
+              width="36px"
+              height="36px"
+              viewBox="0 0 36 36"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+            >
+              <title>形状</title>
+              <defs>
+                <linearGradient
+                  x1="50%"
+                  y1="100%"
+                  x2="50%"
+                  y2="0%"
+                  id="linearGradient-1"
+                >
+                  <stop stopColor="#9BFF93" offset="0%" />
+                  <stop stopColor="#FCFEFF" offset="100%" />
+                </linearGradient>
+              </defs>
+              <g
+                id="页面-1"
+                stroke="none"
+                strokeWidth={1}
+                fill="none"
+                fillRule="evenodd"
+                opacity="0.99"
+              >
+                <g
+                  id="首页"
+                  fillRule="nonzero"
+                  transform="translate(-942, -5291)"
+                  fill="url(#linearGradient-1)"
+                >
+                  <g
+                    id="编组"
+                    fillRule="evenodd"
+                    transform="translate(744, 5259)"
+                  >
+                    <path
+                      d="M216,32 C206.059,32 198,40.059 198,50 C198,59.941 206.059,68 216,68 C225.941,68 234,59.941 234,50 C234,40.059 225.941,32 216,32 Z M212.389,57.301 L205.861,50.8875 L207.014,49.199 L212.389,53.074 L225.014,42.699 L226.139,43.574 L212.389,57.301 L212.389,57.301 Z"
+                      id="形状"
+                      fillRule="nonzero"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <div className="mt-4 text-[22px] text-[#A7FCA0] leading-8.5">
+              1 Cuotas de
+            </div>
+            <div className="text-[28px] text-white font-semibold mt-2">
+              ${afterAmount}
+            </div>
+          </div>
+          <div className="flex justify-center mt-16" onClick={handleClick}>
+            <div className="apply-btn">
+              <div className="apply-btn-cnt  flex items-center justify-center bg-transparent ">
+                <div className="apply-btn-cnt-center text-[16px] text-[#02081F] font-medium">
+                  Quiero un préstamo
+                </div>
+              </div>
+              <div className="mask"></div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

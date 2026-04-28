@@ -13,13 +13,13 @@ export const websit = [
   },
   {
     id: 2,
-    name: "Política de privacid",
+    name: "Política de privacidad",
     href: "/file/Privacy.pdf",
     target: "_blank",
   },
   {
     id: 3,
-    name: "Términos y Condicion",
+    name: "Términos y condiciones de uso",
     href: "/file/Terms.pdf",
     target: "_blank",
   },

@@ -17,6 +17,7 @@ export default function Footer() {
           <div className="text-[24px] leading-9 text-white mb-8 font-semibold">
             Contáctenos
           </div>
+          <div className={cn(basicText, "mb-6")}>CUIT： 30-71911329-6</div>
           <div className={cn(basicText, "mb-6")}>
             Nombre de la empresa：Teemopay S.R.L.
           </div>
