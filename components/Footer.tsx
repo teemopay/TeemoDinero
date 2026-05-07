@@ -40,7 +40,7 @@ export default function Footer() {
               Correo electrónico para contactar：matias.horacio@teemopay.com
             </a>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <a
               className={(cn(textStyle), "hidden md:block")}
               href="mailto:matias.horacio@teemopay.com"
@@ -61,6 +61,10 @@ export default function Footer() {
             >
               Términos y Condiciones para Pedir tu Préstamo
             </Link>
+          </div>
+          <div className={cn(basicText)}>
+            Inscripción PNFC: N° 55572 - Otros Proveedores No Financieros de
+            Crédito
           </div>
         </div>
       </Main>
